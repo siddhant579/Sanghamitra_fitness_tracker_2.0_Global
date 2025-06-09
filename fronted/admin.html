@@ -46,7 +46,7 @@
   <script>
     async function fetchWorkouts() {
       try {
-        const res = await fetch('http://localhost:5000/api/workouts');
+        const res = await fetch('https://sanghamitra-fitness-tracker-2-0-glo-three.vercel.app/api/workouts');
         const data = await res.json();
         const container = document.getElementById('users-container');
         container.innerHTML = '';
