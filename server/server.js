@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-const serverless = require('serverless-http');
 
 const app = express();
 
@@ -24,4 +23,4 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Export for Vercel
 module.exports = app;
-module.exports.handler = serverless(app);
+
