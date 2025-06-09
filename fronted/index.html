@@ -60,7 +60,7 @@
       const payload = { name, age, weight, exercise, time, calories: Math.round(calories) };
 
       try {
-        await fetch('http://localhost:5000/api/workouts', {
+        await fetch('https://sanghamitra-fitness-tracker-2-0-glo-three.vercel.app/api/workouts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
