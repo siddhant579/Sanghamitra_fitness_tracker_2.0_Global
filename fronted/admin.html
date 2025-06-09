@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Page - All Workouts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .user {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .entry {
+      margin-left: 20px;
+      padding: 5px 0;
+      border-bottom: 1px solid #ccc;
+    }
+    h2 {
+      margin-bottom: 5px;
+    }
+    .back {
+      display: block;
+      margin-top: 30px;
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+    }
+    .no-entries {
+      color: gray;
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>All User Workouts</h1>
+  <div id="users-container"></div>
+  <a href="index.html" class="back">← Back to Entry Page</a>
+
+  <script>
+    async function fetchWorkouts() {
+      try {
+        const res = await fetch('http://localhost:5000/api/workouts');
+        const data = await res.json();
+        const container = document.getElementById('users-container');
+        container.innerHTML = '';
+
+        data.forEach(user => {
+          const div = document.createElement('div');
+          div.className = 'user';
+
+          // Only show weight if it exists
+          const weightInfo = user.weight ? `, Weight: ${user.weight} kg` : '';
+
+          let entriesHTML = '';
+          if (user.entries && user.entries.length > 0) {
+            entriesHTML = user.entries.map(entry => `
+              <div class="entry">
+                <b>Exercise:</b> ${entry.exercise} |
+                <b>Time:</b> ${entry.time} mins |
+                <b>Calories:</b> ${entry.calories}
+              </div>
+            `).join('');
+          } else {
+            entriesHTML = `<div class="no-entries">No workouts yet.</div>`;
+          }
+
+          div.innerHTML = `
+            <h2>${user.name} (Age: ${user.age}${weightInfo})</h2>
+            ${entriesHTML}
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    }
+
+    fetchWorkouts();
+  </script>
+
+</body>
+</html>
